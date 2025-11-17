@@ -26,7 +26,7 @@ public class PlayerControllermyown : MonoBehaviour
 
      void Start()
      {
-        rb = GetComponent<Rigidbody>();
+        controller = GetComponent<CharacterController>();
      }
     // Update is called once per frame
     void Update()
