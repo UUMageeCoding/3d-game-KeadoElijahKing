@@ -7,19 +7,27 @@ using UnityEngine;
 public class PlayerControllermyown : MonoBehaviour
 {
     public CharacterController controller;
-    //public Rigidbody rb; 
+    public Rigidbody rb; 
     public Transform cam;
 
-    public bool IsGrounded = true;
+    [SerializeField] private float jumpForce = 12f;
+
+    [Header("Ground Check")]
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private float groundCheckRadius = 0.2f;
+    [SerializeField] private LayerMask groundLayer;
+    private bool isGrounded;
+
     public float speed = 6f;
     public float turnSmoothTime = 0.1f;
     float turnSmoothVelocity;
 
+    public Animator anim;
 
-   /* void Start()
-    {
-       rb = GetComponent<Rigidbody>();
-    }*/
+     void Start()
+     {
+        rb = GetComponent<Rigidbody>();
+     }
     // Update is called once per frame
     void Update()
     {
@@ -35,12 +43,29 @@ public class PlayerControllermyown : MonoBehaviour
 
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             controller.Move(moveDir.normalized * speed * Time.deltaTime);
+           
+            anim.SetBool("isRunning", true);
+        }
+        else
+        {
+            anim.SetBool("isRunning", false);
         }
 
-        /*if (Input.GetButtonDown("Jump") && IsGrounded == true)
+        if (Input.GetButtonDown("Jump") && isGrounded == true)
+         {
+             rb.AddForce(new Vector3(0, 5, 0), ForceMode.Impulse);
+             isGrounded = false;
+         }
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+
+        // Jump input
+        if (Input.GetButtonDown("Jump") && isGrounded)
         {
-            rb.AddForce(new Vector3(0, 5, 0), ForceMode.Impulse);
-            IsGrounded = false;
+            anim.SetBool("isJumping", true);
+        }
+        else
+        {
+            anim.SetBool("isJumping", false);
         }
 
     }
@@ -48,7 +73,7 @@ public class PlayerControllermyown : MonoBehaviour
     {
         if(collision.gameObject.tag == "Ground")
         {
-            IsGrounded = true;  
-        }*/
+            isGrounded = true;  
+        }
     }
 }
