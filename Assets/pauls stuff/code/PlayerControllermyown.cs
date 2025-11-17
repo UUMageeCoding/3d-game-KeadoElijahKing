@@ -7,7 +7,7 @@ using UnityEngine;
 public class PlayerControllermyown : MonoBehaviour
 {
     public CharacterController controller;
-    public Rigidbody rb; 
+    //public Rigidbody rb; 
     public Transform cam;
 
     public bool IsGrounded = true;
@@ -16,10 +16,10 @@ public class PlayerControllermyown : MonoBehaviour
     float turnSmoothVelocity;
 
 
-    void Start()
+   /* void Start()
     {
        rb = GetComponent<Rigidbody>();
-    }
+    }*/
     // Update is called once per frame
     void Update()
     {
@@ -37,7 +37,7 @@ public class PlayerControllermyown : MonoBehaviour
             controller.Move(moveDir.normalized * speed * Time.deltaTime);
         }
 
-        if (Input.GetButtonDown("Jump") && IsGrounded == true)
+        /*if (Input.GetButtonDown("Jump") && IsGrounded == true)
         {
             rb.AddForce(new Vector3(0, 5, 0), ForceMode.Impulse);
             IsGrounded = false;
@@ -49,6 +49,6 @@ public class PlayerControllermyown : MonoBehaviour
         if(collision.gameObject.tag == "Ground")
         {
             IsGrounded = true;  
-        }
+        }*/
     }
 }
