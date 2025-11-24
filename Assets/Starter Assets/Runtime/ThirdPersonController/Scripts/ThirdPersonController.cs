@@ -57,7 +57,7 @@ namespace StarterAssets
         public float GroundedRadius = 0.28f;
 
         [Tooltip("What layers the character uses as ground")]
-        public LayerMask GroundLayers;
+        public LayerMask Ground;
 
         [Header("Cinemachine")]
         [Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
@@ -108,7 +108,6 @@ namespace StarterAssets
 
         private const float _threshold = 0.01f;
 
-        private bool _hasAnimator;
 
         private bool IsCurrentDeviceMouse
         {
@@ -136,7 +135,7 @@ namespace StarterAssets
         {
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
             
-            _hasAnimator = TryGetComponent(out _animator);
+            _animator = GetComponentInChildren<Animator>(); //TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
 #if ENABLE_INPUT_SYSTEM
@@ -154,7 +153,7 @@ namespace StarterAssets
 
         private void Update()
         {
-            _hasAnimator = TryGetComponent(out _animator);
+            //_hasAnimator = TryGetComponent(out _animator);
 
             JumpAndGravity();
             GroundedCheck();
@@ -180,11 +179,11 @@ namespace StarterAssets
             // set sphere position, with offset
             Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset,
                 transform.position.z);
-            Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers,
+            Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, Ground,
                 QueryTriggerInteraction.Ignore);
 
             // update animator if using character
-            if (_hasAnimator)
+            if (_animator)
             {
                 _animator.SetBool(_animIDGrounded, Grounded);
             }
@@ -272,7 +271,7 @@ namespace StarterAssets
                              new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 
             // update animator if using character
-            if (_hasAnimator)
+            if (_animator)
             {
                 
                 _animator.SetBool("isRunning", true);
@@ -291,7 +290,7 @@ namespace StarterAssets
                 _fallTimeoutDelta = FallTimeout;
 
                 // update animator if using character
-                if (_hasAnimator)
+                if (_animator)
                 {
                    // _animator.SetBool(_animIDJump, false);
                    // _animator.SetBool(_animIDFreeFall, false);
@@ -316,10 +315,10 @@ namespace StarterAssets
                     _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
 
                     // update animator if using character
-                    if (_hasAnimator)
+                    /*if (_animator)
                     {
                         _animator.SetBool(_animIDJump, true);
-                    }
+                    }*/
                 }
 
                 // jump timeout
@@ -338,14 +337,14 @@ namespace StarterAssets
                 {
                     _fallTimeoutDelta -= Time.deltaTime;
                 }
-                else
+                /*else
                 {
                     // update animator if using character
-                    if (_hasAnimator)
+                    if (_animator)
                     {
                         _animator.SetBool(_animIDFreeFall, true);
                     }
-                }
+                }*/
 
                 // if we are not grounded, do not jump
                 _input.jump = false;
