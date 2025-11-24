@@ -105232,6 +105232,10 @@ PrefabInstance:
       propertyPath: Ground.m_Bits
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 6586456964282996017, guid: 1837865b70097fe44bbd48f5950014a6, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9056099178956192608, guid: 1837865b70097fe44bbd48f5950014a6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -105272,8 +105276,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 6586456964282996017, guid: 1837865b70097fe44bbd48f5950014a6, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

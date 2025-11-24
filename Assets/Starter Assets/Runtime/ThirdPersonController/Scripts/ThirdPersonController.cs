@@ -238,6 +238,7 @@ namespace StarterAssets
 
                 // round speed to 3 decimal places
                 _speed = Mathf.Round(_speed * 1000f) / 1000f;
+              
             }
             else
             {
@@ -261,6 +262,11 @@ namespace StarterAssets
 
                 // rotate to face input direction relative to camera position
                 transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+                  _animator.SetBool("isRunning", true);
+            }
+               else
+            {
+                 _animator.SetBool("isRunning", false);
             }
 
 
@@ -271,7 +277,7 @@ namespace StarterAssets
                              new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 
             // update animator if using character
-            if (_animator)
+            /*if (_animator)
             {
                 
                 _animator.SetBool("isRunning", true);
@@ -279,7 +285,7 @@ namespace StarterAssets
              else
             {
                  _animator.SetBool("isRunning", false);
-            }
+            }*/
         }
 
         private void JumpAndGravity()
