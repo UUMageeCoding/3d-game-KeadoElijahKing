@@ -21,5 +21,10 @@ public class sceneswitch : MonoBehaviour
         {
             SceneManager.LoadScene(1);
         }
+        if (other.tag == "LevelExit2")
+        {
+            SceneManager.LoadScene(2);
+        }
     }
+
 }
