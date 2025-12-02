@@ -8,6 +8,10 @@ public class ThirdPersonMovment2 : MonoBehaviour
 
     public float Gravity = -7f;
     [SerializeField] float JumpPower = 2f;
+    private float height = 2;
+    private float maxDist = 1;
+    private Vector3 offsetHeight;
+    private Vector3 spherePos;
 
     Vector3 velocity; 
 
@@ -15,11 +19,22 @@ public class ThirdPersonMovment2 : MonoBehaviour
     float turnSmnoothVelocity;
 
     bool isGrounded;
+    public float groundedCheckDistance;
+    private float bufferCheckDistance = 0.1f;
+
+    
+    
     bool isJumping;
 
     public Transform cam;
 
      public Animator anim;
+
+    void Start()
+    {
+        CharacterController controller = GetComponent<CharacterController>();
+        offsetHeight = new Vector3(0.0f, height/2, 0.0f);
+    }
 
     // Update is called once per frame
     void Update()
@@ -46,9 +61,28 @@ public class ThirdPersonMovment2 : MonoBehaviour
 
             controller.Move(velocity * Time.deltaTime);
         }
+        
+         groundedCheckDistance = (GetComponent<CapsuleCollider>().height /2) + bufferCheckDistance;
+
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
+            GetComponent<Rigidbody>().AddForce(transform.up * 3, ForceMode.Impulse);
+            isJumping = true;
+        }
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, -transform.up, out hit, groundedCheckDistance))
+        {
+            isGrounded = true;
+             anim.SetBool("isJumping", true);
+        }
+        else
+        {
+            isGrounded = false;
+             anim.SetBool("isJumping", false);
+        }
 
         //Jump
-        if (Input.GetKeyDown(KeyCode.Space))
+        /*if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             isJumping = true;
             anim.SetBool("isJumping", true);
@@ -56,7 +90,7 @@ public class ThirdPersonMovment2 : MonoBehaviour
         else
         {
             anim.SetBool("isJumping", false);
-        }
+        }*/
 
         if (direction.magnitude >= 0.1f)
         {
@@ -72,7 +106,17 @@ public class ThirdPersonMovment2 : MonoBehaviour
         else
         {
             anim.SetBool("isRunning", false);
+
         }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        isGrounded = true;
+    }
+    void OnCollisionExit(Collision collision)
+    {
+        isGrounded = false;
     }
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {

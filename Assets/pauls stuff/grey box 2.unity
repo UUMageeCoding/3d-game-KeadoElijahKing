@@ -6182,6 +6182,10 @@ PrefabInstance:
       propertyPath: speed
       value: 23
       objectReference: {fileID: 0}
+    - target: {fileID: 581447792391380728, guid: bbfb3ab00daf4d340a20c038de315c42, type: 3}
+      propertyPath: groundedCheckDistance
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 2196146589173441249, guid: bbfb3ab00daf4d340a20c038de315c42, type: 3}
       propertyPath: m_Name
       value: Thirdpersonplayer
